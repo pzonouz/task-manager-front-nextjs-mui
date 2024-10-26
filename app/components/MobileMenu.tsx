@@ -4,8 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import React from "react";
 
-const MobileMenu = () => {
-  const pages = ["Products", "Pricing", "Blog"];
+const MobileMenu = ({ pages }: { pages: string[] }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );

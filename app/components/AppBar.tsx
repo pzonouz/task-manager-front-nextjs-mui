@@ -1,3 +1,4 @@
+"use sever";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,9 +9,12 @@ import Button from "@mui/material/Button";
 import AdbIcon from "@mui/icons-material/Adb";
 import UserMenu from "./UserMenu";
 import MobileMenu from "./MobileMenu";
+import { auth } from "@/auth";
+import Link from "next/link";
 
-function ResponsiveAppBar() {
-  const pages = ["Products", "Pricing", "Blog"];
+async function ResponsiveAppBar() {
+  const pages = ["Tasks", "Projects", "Blog"];
+  const session = await auth();
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -19,8 +23,8 @@ function ResponsiveAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -34,13 +38,13 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
 
-          <MobileMenu />
+          <MobileMenu pages={pages} />
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -65,7 +69,7 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <UserMenu />
+            <UserMenu session={session} />
           </Box>
         </Toolbar>
       </Container>

@@ -8,12 +8,22 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { Session } from "next-auth";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-const UserMenu = () => {
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const UserMenu = ({ session }: { session: Session | null }) => {
+  const router = useRouter();
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
+  };
+  const handleSignOut = () => {
+    setAnchorElUser(null);
+    router.push("/signout");
+  };
+  const handleProfile = () => {
+    setAnchorElUser(null);
+    router.push("/profile");
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -21,12 +31,15 @@ const UserMenu = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-
+  console.log(session);
   return (
     <>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar
+            alt={session?.user?.first_name!}
+            src={session?.user?.image!}
+          />
         </IconButton>
       </Tooltip>
       <Menu
@@ -45,11 +58,26 @@ const UserMenu = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
+        {session?.user ? (
+          <div>
+            <MenuItem key={1} onClick={handleProfile}>
+              <Typography sx={{ textAlign: "center" }}>Profile</Typography>
+            </MenuItem>
+            <MenuItem key={2} onClick={handleSignOut}>
+              <Typography sx={{ textAlign: "center" }}>Signout</Typography>
+            </MenuItem>
+          </div>
+        ) : (
+          <MenuItem
+            key={3}
+            onClick={() => {
+              setAnchorElUser(null);
+              router.push("/signin");
+            }}
+          >
+            <Typography sx={{ textAlign: "center" }}>Signin</Typography>
           </MenuItem>
-        ))}
+        )}
       </Menu>
     </>
   );
