@@ -1,4 +1,4 @@
-export type Task = {
+export type TaskType = {
   id?: string;
   title?: string;
   description?: string;
@@ -6,6 +6,7 @@ export type Task = {
   completed?: boolean;
   owner?: string;
   category?: string;
+  priority?: "string";
   project?: string;
   tags?: string;
   due_date?: string;

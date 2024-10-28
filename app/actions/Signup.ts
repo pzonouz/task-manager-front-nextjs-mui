@@ -1,6 +1,5 @@
 "use server";
 import { signIn } from "@/auth";
-import { redirect } from "next/navigation";
 import * as z from "zod";
 
 const signupSchema = z
@@ -26,7 +25,7 @@ const signupSchema = z
       });
     }
   });
-const signup = async (_prevSate: any, formData: FormData) => {
+const Signup = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = signupSchema.safeParse(rawData);
   if (validated.error) {
@@ -40,11 +39,11 @@ const signup = async (_prevSate: any, formData: FormData) => {
     body: JSON.stringify(validated.data),
   });
   if (res.ok) {
-    await signIn("credentials", validated.data);
+    await signIn("credentials", { ...validated.data, redirectTo: "/" });
   }
   const err = await res.json();
   const formErrors = JSON.stringify(err);
   return { error: { formErrors: formErrors, fieldErrors: {} }, data: rawData };
 };
 
-export { signup };
+export { Signup };

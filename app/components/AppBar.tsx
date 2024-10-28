@@ -13,7 +13,7 @@ import { auth } from "@/auth";
 import Link from "next/link";
 
 async function ResponsiveAppBar() {
-  const pages = ["Tasks", "Projects", "Blog"];
+  const pages = ["tasks", "projects", "blog"];
   const session = await auth();
   return (
     <AppBar position="static">
@@ -35,7 +35,7 @@ async function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Task Manager
           </Typography>
 
           <MobileMenu pages={pages} />
@@ -56,7 +56,7 @@ async function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Task Manager
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

@@ -52,16 +52,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt: async ({ token, user }) => {
       if (user) {
         token.access = user.access;
-        token.refresh = user.refresh;
         token.user = user.user;
       }
       return token;
     },
     session: async ({ session, token }) => {
       session.refresh = token.refresh;
-      session.acsess = token.access;
+      session.access = token.access;
       session.user = token.user;
-      console.log(session);
       return session;
     },
   },

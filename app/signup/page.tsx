@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useActionState } from "react";
-import { signup } from "../actions/signup";
+import { Signup } from "../actions/Signup";
 
 const page = () => {
-  const [state, action, pending] = useActionState(signup, null);
+  const [state, action, pending] = useActionState(Signup, null);
   return (
     <Box sx={{ marginTop: "4rem", maxWidth: "20rem", marginX: "auto" }}>
       <Typography

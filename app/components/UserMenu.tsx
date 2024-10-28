@@ -31,7 +31,6 @@ const UserMenu = ({ session }: { session: Session | null }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-  console.log(session);
   return (
     <>
       <Tooltip title="Open settings">
