@@ -4,10 +4,10 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useActionState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import { signIn } from "next-auth/react";
-import { Signin } from "../actions/Signin";
+import { SigninAction } from "../actions/Auth";
 
 const SignInPage = () => {
-  const [state, action, pending] = useActionState(Signin, null);
+  const [state, action, pending] = useActionState(SigninAction, null);
   useEffect(() => {
     console.log(state);
   }, [state]);

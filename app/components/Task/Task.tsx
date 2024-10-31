@@ -11,21 +11,18 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useActionState, useEffect, useState } from "react";
-import { Category } from "../types/Category.type";
-import { Prioirity } from "../types/Priority.type";
 import { LoadingButton } from "@mui/lab";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
-import { AddTaskAction } from "../actions/AddTask";
-import { TaskType } from "../types/Task.type";
-import { ModalWithState } from "./ModalWithState";
+import { Category } from "@/app/types/Category.type";
+import { Prioirity } from "@/app/types/Priority.type";
+import { AddTaskAction } from "@/app/actions/Task";
+import { ModalWithState } from "../Shared/ModalWithState";
 
 const Task = ({
-  task,
   categories,
   priorities,
 }: {
-  task: TaskType | null;
   categories: Category[];
   priorities: Prioirity[];
 }) => {
@@ -63,7 +60,7 @@ const Task = ({
           name="title"
           label="Title"
           variant="standard"
-          defaultValue={state?.data?.title || task?.title}
+          defaultValue={state?.data?.title}
         />
         <TextField
           helperText={state?.error?.fieldErrors?.description}
@@ -71,16 +68,14 @@ const Task = ({
           name="description"
           label="Description"
           variant="standard"
-          defaultValue={state?.data?.description || task?.description}
+          defaultValue={state?.data?.description}
         />
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
           <Select
             name="category"
             variant="standard"
-            defaultValue={
-              state?.data?.category || task?.category || categories[0]?.id
-            }
+            defaultValue={categories[0]?.id}
             label="Category"
           >
             {categories.map((category) => (
@@ -95,9 +90,7 @@ const Task = ({
           <Select
             name="priority"
             variant="standard"
-            defaultValue={
-              state?.data?.priority || task?.priority || priorities[0]?.id
-            }
+            defaultValue={priorities[0]?.id}
             label="Priority"
           >
             {priorities.map((priority) => (
@@ -108,11 +101,13 @@ const Task = ({
           </Select>
         </FormControl>
         <DateTimePicker
-          defaultValue={
-            dayjs(state?.data?.due_date.toString()) ||
-            dayjs(task?.due_date) ||
-            dayjs()
-          }
+          slots={{
+            textField: ({ ...params }) => (
+              <TextField {...params} error={false} />
+            ),
+          }}
+          disablePast
+          defaultValue={dayjs(state?.data?.due_date.toString()) || dayjs()}
           name="due_date"
           label="Due Date"
         />

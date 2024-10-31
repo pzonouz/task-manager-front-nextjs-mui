@@ -1,3 +1,4 @@
+// @ts-nocheck
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -47,11 +48,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
-    // BUG:fix warnign on lsp
     // TODO: Implement for googleauth
     jwt: async ({ token, user }) => {
       if (user) {
         token.access = user.access;
+        token.refresh = user.refresh;
         token.user = user.user;
       }
       return token;

@@ -4,9 +4,10 @@ export type TaskType = {
   description?: string;
   status?: "PR" | "CM" | "CN";
   completed?: boolean;
+  percentage: number;
   owner?: string;
   category?: string;
-  priority?: "string";
+  priority?: string;
   project?: string;
   tags?: string;
   due_date?: string;

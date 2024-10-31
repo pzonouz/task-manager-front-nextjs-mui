@@ -1,6 +1,26 @@
 "use server";
 import { signIn } from "@/auth";
+import { redirect } from "next/navigation";
 import * as z from "zod";
+
+const signinSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
+const SigninAction = async (_prevSate: any, formData: FormData) => {
+  const rawData = Object.fromEntries(formData);
+  const validatedData = signinSchema.safeParse(rawData);
+  if (validatedData.error) {
+    return { error: validatedData.error.flatten(), data: rawData };
+  }
+  try {
+    await signIn("credentials", { ...validatedData.data, redirect: false });
+  } catch (e) {
+    const formErrors = { formErrors: "Email and password not match" };
+    return { error: { formErrors }, data: rawData };
+  }
+  redirect("/");
+};
 
 const signupSchema = z
   .object({
@@ -25,7 +45,7 @@ const signupSchema = z
       });
     }
   });
-const Signup = async (_prevSate: any, formData: FormData) => {
+const SignupAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = signupSchema.safeParse(rawData);
   if (validated.error) {
@@ -46,4 +66,4 @@ const Signup = async (_prevSate: any, formData: FormData) => {
   return { error: { formErrors: formErrors, fieldErrors: {} }, data: rawData };
 };
 
-export { Signup };
+export { SigninAction, SignupAction };
