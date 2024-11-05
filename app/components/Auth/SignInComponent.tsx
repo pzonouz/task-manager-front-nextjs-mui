@@ -1,16 +1,13 @@
 "use client";
 import { Box, Button, FormHelperText, Link, TextField } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { signIn } from "next-auth/react";
-import { SigninAction } from "../actions/Auth";
+import { SigninAction } from "@/app/actions/Auth";
 
-const SignInPage = () => {
+const SignInComponent = () => {
   const [state, action, pending] = useActionState(SigninAction, null);
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
   return (
     <Box
       sx={{
@@ -82,4 +79,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default SignInComponent;

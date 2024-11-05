@@ -1,9 +1,9 @@
 "use server";
 
-import SignInPage from "@/app/components/SignInPage";
+import SignInComponent from "../components/Auth/SignInComponent";
 
 const page = async () => {
-  return <SignInPage />;
+  return <SignInComponent />;
 };
 
 export default page;

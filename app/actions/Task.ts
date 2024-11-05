@@ -69,5 +69,23 @@ const EditTaskAction = async (_prevSate: any, formData: FormData) => {
   const formErrors = { formErrors: JSON.stringify(err) };
   return { error: formErrors, fieldErrors: {}, data: rawData };
 };
+const CompleteTaskAction = async (_prevState: any, formData: FormData) => {
+  const rawData = Object.fromEntries(formData);
+  const session: Session | null = await auth();
+  const res = await fetch(
+    `${process.env.BACKEND_URL}/tasks/${rawData?.id}/complete`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.access}`,
+        credentials: "include",
+      },
+      method: "POST",
+    },
+  );
+  if (res.ok) {
+    revalidatePath("/tasks");
+  }
+};
 
-export { AddTaskAction, EditTaskAction };
+export { AddTaskAction, EditTaskAction, CompleteTaskAction };
