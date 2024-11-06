@@ -2,7 +2,8 @@
 import { TaskType } from "@/app/types/Task.type";
 import { CircularProgress, IconButton } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import { useActionState, useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { useActionState } from "react";
 import { CompleteTaskAction } from "@/app/actions/Task";
 
 const CompleteTask = ({ task }: { task: TaskType }) => {
@@ -21,6 +22,8 @@ const CompleteTask = ({ task }: { task: TaskType }) => {
       >
         {loading ? (
           <CircularProgress size={20} sx={{ color: "success.main" }} />
+        ) : task?.completed ? (
+          <CloseIcon />
         ) : (
           <CheckIcon />
         )}

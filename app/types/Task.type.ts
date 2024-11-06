@@ -1,3 +1,6 @@
+import { Category } from "./Category.type";
+import { Prioirity } from "./Priority.type";
+
 export type TaskType = {
   id?: string;
   title?: string;
@@ -13,4 +16,6 @@ export type TaskType = {
   due_date?: string;
   created_at?: string;
   updated_at?: string;
+  category_full?: Category;
+  priority_full?: Prioirity;
 };

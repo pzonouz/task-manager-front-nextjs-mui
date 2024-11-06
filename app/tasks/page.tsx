@@ -1,13 +1,12 @@
 import {
   Box,
-  IconButton,
+  Chip,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   Typography,
 } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
 import { TaskType } from "../types/Task.type";
 import { auth } from "@/auth";
 import Link from "next/link";
@@ -17,7 +16,19 @@ import { Suspense } from "react";
 import Loading from "../loading";
 import dayjs from "dayjs";
 import { CompleteTask } from "../components/Task/CompleteTask";
+import { redirect } from "next/navigation";
 
+const taskDeadline = (task: TaskType) =>
+  (dayjs().unix() - dayjs(task?.created_at).unix()) /
+  (dayjs(task?.due_date).unix() - dayjs(task?.created_at).unix());
+
+const taskDeadlineToPercentColor = (task: TaskType) => {
+  if (dayjs(task?.due_date).unix() - dayjs().unix() > 0) {
+    return `hsl(${240 - 240 * taskDeadline(task)},100%,50%)`;
+  } else {
+    return "black";
+  }
+};
 const page = async ({
   searchParams,
 }: {
@@ -25,6 +36,9 @@ const page = async ({
 }) => {
   const params = await searchParams;
   const keys = Object.keys(params);
+  if (!keys.includes("completed")) {
+    redirect("/tasks?completed=false");
+  }
   const fetchUrl = `${process.env.BACKEND_URL}/tasks/?${keys
     .map((key) => `${key}=${params[key]}`)
     .join("&")}`;
@@ -42,14 +56,7 @@ const page = async ({
     },
   });
   const tasks: TaskType[] = await resTasks.json();
-  // TODO:Percentage on fornt of each task
-  // TODO:Days to due date inside of each task
   // TODO:Fix complete tasks strikes font
-  // BUG:Fix color and hover in tasks and completed task
-  const taskDeadline = (task: TaskType) =>
-    (dayjs().unix() - dayjs(task?.created_at).unix()) /
-    (dayjs(task?.due_date).unix() - dayjs(task?.created_at).unix());
-  console.log(taskDeadline(tasks[0]));
   return (
     <div>
       <Typography variant="h4" sx={{ textAlign: "center", marginTop: "1rem" }}>
@@ -99,13 +106,9 @@ const page = async ({
                   sx={[
                     {
                       width: `${taskDeadline(task)}`,
-                      backgroundColor: `hsl(${
-                        240 - 240 * taskDeadline(task)
-                      },100%,50%)`,
+                      backgroundColor: taskDeadlineToPercentColor(task),
                       "&:hover": {
-                        backgroundColor: `hsl(${
-                          240 - 240 * taskDeadline(task)
-                        },100%,50%)`,
+                        backgroundColor: taskDeadlineToPercentColor(task),
                       },
                       padding: "1rem",
                       overflow: "visible",
@@ -142,6 +145,102 @@ const page = async ({
                     primary={`${task?.title}`}
                   />
                 </ListItemButton>
+                <Box
+                  sx={[
+                    {
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      color: "black",
+                      gap: "0.5rem",
+                      position: "absolute",
+                      top: "50%",
+                      right: "4rem",
+                      transform: "translate(0,-50%)",
+                    },
+                  ]}
+                >
+                  <Chip
+                    size="small"
+                    sx={[
+                      {
+                        fontSize: "0.5rem",
+                        color: "black",
+                        borderColor: "black",
+                      },
+                      {
+                        backgroundColor:
+                          dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                            ? "black"
+                            : null,
+                        color:
+                          dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                            ? "white"
+                            : null,
+                        borderColor:
+                          dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                            ? "white"
+                            : null,
+                        "&:hover": {
+                          backgroundColor:
+                            dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                              ? "black"
+                              : null,
+                          color:
+                            dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                              ? "white"
+                              : null,
+                          borderColor:
+                            dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                              ? "white"
+                              : null,
+                        },
+                      },
+                    ]}
+                    variant="outlined"
+                    label={task?.category_full?.name}
+                  />
+                  <Chip
+                    size="small"
+                    sx={[
+                      {
+                        fontSize: "0.5rem",
+                        color: "black",
+                        borderColor: "black",
+                      },
+                      {
+                        backgroundColor:
+                          dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                            ? "black"
+                            : null,
+                        color:
+                          dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                            ? "white"
+                            : null,
+                        borderColor:
+                          dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                            ? "white"
+                            : null,
+                        "&:hover": {
+                          backgroundColor:
+                            dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                              ? "black"
+                              : null,
+                          color:
+                            dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                              ? "white"
+                              : null,
+                          borderColor:
+                            dayjs(task?.due_date).unix() - dayjs().unix() < 0
+                              ? "white"
+                              : null,
+                        },
+                      },
+                    ]}
+                    variant="outlined"
+                    label={`${task?.priority_full?.name}`}
+                  />
+                </Box>
               </Box>
             </ListItem>
           ))}
@@ -151,3 +250,4 @@ const page = async ({
   );
 };
 export default page;
+export { taskDeadline, taskDeadlineToPercentColor };

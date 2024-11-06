@@ -42,23 +42,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           body: JSON.stringify(user),
         });
         if (res.ok) {
-          return await res.json();
+          const backendUser = await res.json();
+          user.access = backendUser.access;
+          return user;
         }
         return null;
       }
       return true;
     },
-    // TODO: Implement for googleauth
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account }) => {
       if (user) {
         token.access = user.access;
-        token.refresh = user.refresh;
-        token.user = user.user;
+        token.user = user;
       }
       return token;
     },
     session: async ({ session, token }) => {
-      session.refresh = token.refresh;
       session.access = token.access;
       session.user = token.user;
       return session;

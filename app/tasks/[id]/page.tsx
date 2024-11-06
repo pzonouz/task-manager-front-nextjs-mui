@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import dayjs from "dayjs";
+import { taskDeadlineToPercentColor } from "../page";
 
 const page = async ({ params }: { params: { id: number } }) => {
   const parameters = await params;
@@ -76,15 +77,8 @@ const page = async ({ params }: { params: { id: number } }) => {
             justifyContent: "space-between",
             padding: "1rem",
             color: "white",
-          },
-          priorities?.[task.priority - 1]?.name == "High" && {
-            backgroundColor: "error.main",
-          },
-          priorities?.[task.priority - 1]?.name == "Medium" && {
-            backgroundColor: "warning.main",
-          },
-          priorities?.[task.priority - 1]?.name == "Low" && {
-            backgroundColor: "primary.main",
+            backgroundColor: taskDeadlineToPercentColor(task),
+            // backgroundColor: "black",
           },
         ]}
       >
