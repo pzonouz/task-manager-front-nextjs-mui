@@ -1,4 +1,5 @@
 import { Category } from "./Category.type";
+import { Comment } from "./Comment.type";
 import { Prioirity } from "./Priority.type";
 
 export type TaskType = {
@@ -18,4 +19,5 @@ export type TaskType = {
   updated_at?: string;
   category_full?: Category;
   priority_full?: Prioirity;
+  comments_full?: Comment[];
 };

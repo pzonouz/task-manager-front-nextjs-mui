@@ -1,13 +1,15 @@
 "use server";
 
 import { auth } from "@/auth";
-import { Box, IconButton, LinearProgress, Paper } from "@mui/material";
+import { Box, Divider, IconButton, Paper, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
-import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import dayjs from "dayjs";
 import { taskDeadlineToPercentColor } from "../page";
+import { CreateComment } from "@/app/components/Comment/CreateComment";
+import { Comment } from "@/app/types/Comment.type";
+import { Comments } from "@/app/components/Comment/Comments";
 
 const page = async ({ params }: { params: { id: number } }) => {
   const parameters = await params;
@@ -78,7 +80,6 @@ const page = async ({ params }: { params: { id: number } }) => {
             padding: "1rem",
             color: "white",
             backgroundColor: taskDeadlineToPercentColor(task),
-            // backgroundColor: "black",
           },
         ]}
       >
@@ -96,25 +97,14 @@ const page = async ({ params }: { params: { id: number } }) => {
         {"---"}
         {dateTime.get("h")}:{dateTime.get("minute")}
       </Paper>
-      <Paper
-        elevation={2}
-        sx={{
-          padding: "1rem",
-          display: "flex",
-          gap: "0.5rem",
-          alignItems: "center",
-        }}
+      <Divider />
+      <Typography
+        sx={{ textAlign: "center", fontSize: "0.8rem", marginY: "-1rem" }}
       >
-        <Box>{task?.percentage}%</Box>
-        <LinearProgress
-          sx={{ flex: 1 }}
-          variant="determinate"
-          // defaultValue={task?.percentage}
-          value={task?.percentage}
-          valueBuffer={task?.percentage}
-          color="secondary"
-        />
-      </Paper>
+        Comments
+      </Typography>
+      <Divider />
+      <Comments task={task} />
     </Box>
   );
 };

@@ -17,7 +17,6 @@ import Loading from "../loading";
 import dayjs from "dayjs";
 import { CompleteTask } from "../components/Task/CompleteTask";
 import { redirect } from "next/navigation";
-
 const taskDeadline = (task: TaskType) =>
   (dayjs().unix() - dayjs(task?.created_at).unix()) /
   (dayjs(task?.due_date).unix() - dayjs(task?.created_at).unix());
@@ -56,7 +55,6 @@ const page = async ({
     },
   });
   const tasks: TaskType[] = await resTasks.json();
-  // TODO:Fix complete tasks strikes font
   return (
     <div>
       <Typography variant="h4" sx={{ textAlign: "center", marginTop: "1rem" }}>
