@@ -3,7 +3,7 @@
 import { EditTask } from "@/app/components/Task/EditTask";
 import { auth } from "@/auth";
 
-const page = async ({ params }: { params: { id: number } }) => {
+const page = async ({ params }: { params: any }) => {
   const session = await auth();
   const parameters = await params;
 

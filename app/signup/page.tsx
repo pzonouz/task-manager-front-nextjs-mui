@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useActionState } from "react";
+import { ReactNode, useActionState } from "react";
 import { SignupAction } from "../actions/Auth";
 
 const page = () => {
@@ -62,7 +62,9 @@ const page = () => {
           error={!!state?.error?.fieldErrors.password_confirm}
           fullWidth
         ></TextField>
-        <FormHelperText error={true}>{state?.error?.formErrors}</FormHelperText>
+        <FormHelperText error={true}>
+          {state?.error?.formErrors as ReactNode}
+        </FormHelperText>
         <LoadingButton type="submit" loading={pending} variant="contained">
           SIGNUP
         </LoadingButton>

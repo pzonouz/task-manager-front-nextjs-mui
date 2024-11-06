@@ -19,7 +19,14 @@ const AddTaskAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = schema.safeParse(rawData);
   if (validated.error) {
-    return { error: validated.error.flatten(), data: rawData };
+    return {
+      error: {
+        formErrors: validated.error.flatten().formErrors,
+        fieldErrors: validated.error.flatten().fieldErrors,
+      },
+      data: rawData,
+      success: false,
+    };
   }
   const session: Session | null = await auth();
   validated.data.due_date = dayjs(validated.data.due_date).toISOString();
@@ -38,14 +45,26 @@ const AddTaskAction = async (_prevSate: any, formData: FormData) => {
   }
   const err = await res.json();
   const formErrors = JSON.stringify(err);
-  return { error: { formErrors: formErrors, fieldErrors: {} }, data: rawData };
+  return {
+    error: {
+      formErrors: formErrors,
+      fieldErrors: { title: "", description: "" },
+    },
+    data: rawData,
+  };
 };
 
 const EditTaskAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = schema.safeParse(rawData);
   if (validated.error) {
-    return { error: validated.error.flatten(), data: rawData };
+    return {
+      error: {
+        formErrors: validated.error.flatten().formErrors,
+        fielsErrors: validated.error.flatten().fieldErrors,
+      },
+      data: rawData,
+    };
   }
   validated.data.due_date = dayjs(validated.data.due_date).toISOString();
   const session: Session | null = await auth();
@@ -67,7 +86,10 @@ const EditTaskAction = async (_prevSate: any, formData: FormData) => {
   }
   const err = await res.json();
   const formErrors = { formErrors: JSON.stringify(err) };
-  return { error: formErrors, fieldErrors: {}, data: rawData };
+  return {
+    error: { formErrors, fieldErrors: { title: "", description: "" } },
+    data: rawData,
+  };
 };
 const CompleteTaskAction = async (_prevState: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);

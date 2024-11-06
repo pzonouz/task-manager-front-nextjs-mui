@@ -7,11 +7,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
 import dayjs from "dayjs";
 import { taskDeadlineToPercentColor } from "../page";
-import { CreateComment } from "@/app/components/Comment/CreateComment";
-import { Comment } from "@/app/types/Comment.type";
 import { Comments } from "@/app/components/Comment/Comments";
 
-const page = async ({ params }: { params: { id: number } }) => {
+const page = async ({ params }: { params: any }) => {
   const parameters = await params;
   const session = await auth();
   const resTask = await fetch(

@@ -7,15 +7,22 @@ const signinSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
 });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SigninAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validatedData = signinSchema.safeParse(rawData);
   if (validatedData.error) {
-    return { error: validatedData.error.flatten(), data: rawData };
+    return {
+      error: {
+        formErrors: validatedData.error.flatten().formErrors,
+        fieldErrors: validatedData.error.flatten().fieldErrors,
+      },
+      data: rawData,
+    };
   }
   try {
     await signIn("credentials", { ...validatedData.data, redirect: false });
-  } catch (e) {
+  } catch {
     const formErrors = { formErrors: "Email and password not match" };
     return { error: { formErrors }, data: rawData };
   }
@@ -49,7 +56,13 @@ const SignupAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = signupSchema.safeParse(rawData);
   if (validated.error) {
-    return { error: validated.error.flatten(), data: rawData };
+    return {
+      error: {
+        fieldErrors: validated.error.flatten().fieldErrors,
+        formErrors: validated.error.formErrors,
+      },
+      data: rawData,
+    };
   }
   const res = await fetch(`${process.env.BACKEND_URL}/auth/signup/`, {
     method: "POST",
@@ -63,7 +76,13 @@ const SignupAction = async (_prevSate: any, formData: FormData) => {
   }
   const err = await res.json();
   const formErrors = JSON.stringify(err);
-  return { error: { formErrors: formErrors, fieldErrors: {} }, data: rawData };
+  return {
+    error: {
+      formErrors: formErrors,
+      fieldErrors: { email: "", password: "", password_confirm: "" },
+    },
+    data: rawData,
+  };
 };
 
 export { SigninAction, SignupAction };

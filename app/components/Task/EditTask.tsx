@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useActionState, useEffect } from "react";
+import { ReactNode, useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TaskType } from "@/app/types/Task.type";
 import { Category } from "@/app/types/Category.type";
@@ -30,13 +30,7 @@ const EditTask = ({
   categories: Category[];
   priorities: Prioirity[];
 }) => {
-  const router = useRouter();
   const [state, action, loading] = useActionState(EditTaskAction, null);
-  // useEffect(() => {
-  //   if (state?.success) {
-  //     router.push(`/tasks/${task?.id}`);
-  //   }
-  // }, [state]);
   return (
     <Box
       component="form"
@@ -122,7 +116,9 @@ const EditTask = ({
         defaultValue={task.percentage}
       />
       {state?.error?.formErrors && (
-        <FormHelperText error>{state?.error?.formErrors}</FormHelperText>
+        <FormHelperText error>
+          {state?.error?.formErrors as ReactNode}
+        </FormHelperText>
       )}
       <LoadingButton type="submit" variant="contained" loading={loading}>
         Edit Task

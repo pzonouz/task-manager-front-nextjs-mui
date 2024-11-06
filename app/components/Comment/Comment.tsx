@@ -17,7 +17,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
   const [edit, setEdit] = useState(false);
   const [snackBarText, setSnackBarText] = useState("");
   const [commentValue, setCommentValue] = useState(comment?.text);
-  const [severity, setSeverity] = useState("success");
+  const [severity, setSeverity] = useState<"success" | "error">("success");
 
   return (
     <>
@@ -42,7 +42,6 @@ const Comment = ({ comment }: { comment: CommentType }) => {
       <Input
         multiline
         value={commentValue}
-        edge="end"
         onChange={(e) => {
           setCommentValue(e.currentTarget.value);
           if (e.currentTarget.value == comment?.text) {

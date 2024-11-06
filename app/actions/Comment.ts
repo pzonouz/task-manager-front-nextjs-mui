@@ -13,7 +13,13 @@ const AddCommentAction = async (_prevState: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validatedData = schema.safeParse(rawData);
   if (validatedData.error) {
-    return { error: validatedData.error.flatten(), data: rawData };
+    return {
+      error: {
+        formErrors: validatedData.error.flatten().formErrors,
+        fieldErrors: validatedData.error.flatten().fieldErrors,
+      },
+      data: rawData,
+    };
   }
   const session: Session | null = await auth();
   const res = await fetch(`${process.env.BACKEND_URL}/comments/`, {
@@ -27,10 +33,10 @@ const AddCommentAction = async (_prevState: any, formData: FormData) => {
   });
   if (res.ok) {
     revalidatePath(`/tasks/${rawData?.task_id}`);
-    return { success: true };
+    redirect(`/tasks/${rawData?.task_id}`);
   }
   const err = await res.json();
-  const error = { formErrors: err };
+  const error = { formErrors: err, fieldErrors: { text: "" } };
   return { error, data: rawData };
 };
 const EditCommentAction = async (id: string, commentText: string) => {
