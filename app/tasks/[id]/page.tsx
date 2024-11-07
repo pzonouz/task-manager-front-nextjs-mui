@@ -8,6 +8,8 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import { taskDeadlineToPercentColor } from "../page";
 import { Comments } from "@/app/components/Comment/Comments";
+import { Category } from "@/app/types/Category.type";
+import { Prioirity } from "@/app/types/Priority.type";
 
 const page = async ({ params }: { params: any }) => {
   const parameters = await params;
@@ -81,8 +83,20 @@ const page = async ({ params }: { params: any }) => {
           },
         ]}
       >
-        <Box>{categories?.[task.category - 1]?.name}</Box>
-        <Box>{priorities?.[task.priority - 1]?.name}</Box>
+        <Box>
+          {
+            categories?.find(
+              (category: Category) => category?.id == task?.category,
+            )?.name
+          }
+        </Box>
+        <Box>
+          {
+            priorities?.find(
+              (priority: Prioirity) => priority?.id == task?.priority,
+            )?.name
+          }
+        </Box>
       </Paper>
       <Paper elevation={2} sx={{ padding: "1rem" }}>
         {task.title}

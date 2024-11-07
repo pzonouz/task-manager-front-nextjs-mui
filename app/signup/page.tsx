@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ReactNode, useActionState } from "react";
+import { useActionState } from "react";
 import { SignupAction } from "../actions/Auth";
 
 const page = () => {

@@ -4,9 +4,6 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: {
-    signIn: "/signin",
-  },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,

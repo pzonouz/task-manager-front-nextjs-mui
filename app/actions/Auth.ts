@@ -26,7 +26,7 @@ const SigninAction = async (_prevSate: any, formData: FormData) => {
     const formErrors = { formErrors: "Email and password not match" };
     return { error: { formErrors }, data: rawData };
   }
-  redirect("/");
+  redirect("/tasks");
 };
 
 const signupSchema = z

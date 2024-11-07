@@ -22,7 +22,7 @@ const SignInComponent = () => {
       <Box
         component="form"
         action={() => {
-          signIn("google");
+          signIn("google", { redirectTo: "/tasks" });
         }}
       >
         <Button
