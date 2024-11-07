@@ -56,10 +56,16 @@ const SignupAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = signupSchema.safeParse(rawData);
   if (validated.error) {
+    console.log({
+      error: {
+        fieldErrors: validated.error.flatten().fieldErrors,
+        formErrors: validated.error.flatten().formErrors,
+      },
+    });
     return {
       error: {
         fieldErrors: validated.error.flatten().fieldErrors,
-        formErrors: validated.error.formErrors,
+        formErrors: validated.error.flatten().formErrors,
       },
       data: rawData,
     };

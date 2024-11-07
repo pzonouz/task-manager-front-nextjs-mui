@@ -55,16 +55,16 @@ const Task = ({
           Add Task
         </Typography>
         <TextField
-          helperText={state?.error?.fieldErrors?.title}
-          error={!!state?.error?.fieldErrors?.title}
+          helperText={state?.error?.fieldErrors?.title?.[0]}
+          error={!!state?.error?.fieldErrors?.title?.[0]}
           name="title"
           label="Title"
           variant="standard"
           defaultValue={state?.data?.title}
         />
         <TextField
-          helperText={state?.error?.fieldErrors?.description}
-          error={!!state?.error?.fieldErrors?.description}
+          helperText={state?.error?.fieldErrors?.description?.[0]}
+          error={!!state?.error?.fieldErrors?.description?.[0]}
           name="description"
           label="Description"
           variant="standard"
@@ -111,7 +111,7 @@ const Task = ({
           name="due_date"
           label="Due Date"
         />
-        {state?.error?.formErrors && (
+        {state?.error?.formErrors?.length! && (
           <FormHelperText error>{state?.error?.formErrors}</FormHelperText>
         )}
         <LoadingButton type="submit" variant="contained" loading={loading}>

@@ -22,7 +22,7 @@ const DeleteTask = async (props: { id: string }) => {
           component="form"
           action={async () => {
             "use server";
-            const res = await fetch(
+            await fetch(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/tasks/${props.id}/`,
               {
                 method: "DELETE",

@@ -48,7 +48,7 @@ const AddTaskAction = async (_prevSate: any, formData: FormData) => {
   return {
     error: {
       formErrors: formErrors,
-      fieldErrors: { title: "", description: "" },
+      fieldErrors: { title: null, description: null },
     },
     data: rawData,
   };
@@ -87,7 +87,7 @@ const EditTaskAction = async (_prevSate: any, formData: FormData) => {
   const err = await res.json();
   const formErrors = { formErrors: JSON.stringify(err) };
   return {
-    error: { formErrors, fieldErrors: { title: "", description: "" } },
+    error: { formErrors, fieldErrors: { title: null, description: null } },
     data: rawData,
   };
 };

@@ -52,8 +52,8 @@ const SignInComponent = () => {
           variant="standard"
           fullWidth
           defaultValue={state?.data?.email}
-          helperText={state?.error?.fieldErrors?.email}
-          error={!!state?.error?.fieldErrors?.email}
+          helperText={state?.error?.fieldErrors?.email?.[0]}
+          error={!!state?.error?.fieldErrors?.email?.[0]}
         />
         <TextField
           name="password"
@@ -62,10 +62,10 @@ const SignInComponent = () => {
           variant="standard"
           fullWidth
           defaultValue={state?.data?.password}
-          helperText={state?.error?.fieldErrors?.password}
-          error={!!state?.error?.fieldErrors?.password}
+          helperText={state?.error?.fieldErrors?.password?.[0]}
+          error={!!state?.error?.fieldErrors?.password?.[0]}
         />
-        {state?.error?.formErrors && (
+        {state?.error?.formErrors?.toString()?.length! > 0 && (
           <FormHelperText error={true}>
             Email and password doesn't match
           </FormHelperText>

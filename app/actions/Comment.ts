@@ -32,8 +32,8 @@ const AddCommentAction = async (_prevState: any, formData: FormData) => {
     body: JSON.stringify(rawData),
   });
   if (res.ok) {
-    revalidatePath(`/tasks/${rawData?.task_id}`);
-    redirect(`/tasks/${rawData?.task_id}`);
+    revalidatePath(`/tasks/${rawData?.task}`);
+    redirect(`/tasks/${rawData?.task}`);
   }
   const err = await res.json();
   const error = { formErrors: err, fieldErrors: { text: "" } };

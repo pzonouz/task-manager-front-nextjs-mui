@@ -39,8 +39,8 @@ const page = () => {
           variant="standard"
           fullWidth
           defaultValue={state?.data?.email}
-          helperText={state?.error?.fieldErrors?.email}
-          error={!!state?.error?.fieldErrors?.email}
+          helperText={state?.error?.fieldErrors?.email?.[0]}
+          error={!!state?.error?.fieldErrors?.email?.[0]}
         ></TextField>
         <TextField
           type="password"
@@ -49,8 +49,8 @@ const page = () => {
           name="password"
           fullWidth
           defaultValue={state?.data?.password}
-          helperText={state?.error?.fieldErrors?.password}
-          error={!!state?.error?.fieldErrors?.password}
+          helperText={state?.error?.fieldErrors?.password?.[0]}
+          error={!!state?.error?.fieldErrors?.password?.[0]}
         ></TextField>
         <TextField
           type="password"
@@ -58,13 +58,15 @@ const page = () => {
           variant="standard"
           name="password_confirm"
           defaultValue={state?.data?.password_confirm}
-          helperText={state?.error?.fieldErrors?.password_confirm}
-          error={!!state?.error?.fieldErrors.password_confirm}
+          helperText={state?.error?.fieldErrors?.password_confirm?.[0]}
+          error={!!state?.error?.fieldErrors.password_confirm?.[0]}
           fullWidth
         ></TextField>
-        <FormHelperText error={true}>
-          {state?.error?.formErrors as ReactNode}
-        </FormHelperText>
+        {state?.error?.formErrors?.length! > 0 && (
+          <FormHelperText error={true}>
+            {JSON.stringify(state?.error?.formErrors)}
+          </FormHelperText>
+        )}
         <LoadingButton type="submit" loading={pending} variant="contained">
           SIGNUP
         </LoadingButton>

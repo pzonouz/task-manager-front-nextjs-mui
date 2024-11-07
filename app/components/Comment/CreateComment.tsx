@@ -25,10 +25,10 @@ const CreateComment = ({ task }: { task: TaskType }) => {
         variant="filled"
         multiline
         minRows={3}
-        helperText={state?.error?.fieldErrors?.text}
-        error={!!state?.error?.fieldErrors?.text}
+        helperText={state?.error?.fieldErrors?.text?.[0]}
+        error={!!state?.error?.fieldErrors?.text?.[0]}
       />
-      {state?.error?.formErrors && (
+      {state?.error?.formErrors?.length! && (
         <FormHelperText error>
           {JSON.stringify(state?.error?.formErrors)}
         </FormHelperText>
