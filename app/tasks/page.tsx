@@ -28,11 +28,7 @@ const taskDeadlineToPercentColor = (task: TaskType) => {
     return "black";
   }
 };
-const page = async ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+const page = async ({ searchParams }: { searchParams: any }) => {
   const params = await searchParams;
   const keys = Object.keys(params);
   if (!keys.includes("completed")) {
