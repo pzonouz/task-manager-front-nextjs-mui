@@ -18,6 +18,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
           body: JSON.stringify(credentials),
         });
+        if (!res.ok) {
+          return null;
+        }
         const { access, refresh, ...rest } = await res.json();
         if (res.ok && access) {
           return { access: access, refresh: refresh, user: { ...rest } };

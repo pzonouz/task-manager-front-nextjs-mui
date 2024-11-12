@@ -2,7 +2,9 @@
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const MobileMenu = ({ pages }: { pages: string[] }) => {
@@ -17,6 +19,8 @@ const MobileMenu = ({ pages }: { pages: string[] }) => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const path = usePathname();
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -47,7 +51,12 @@ const MobileMenu = ({ pages }: { pages: string[] }) => {
           sx={{ display: { xs: "block", md: "none" } }}
         >
           {pages.map((page) => (
-            <MenuItem key={page} component={Link} href={`/${page}`}>
+            <MenuItem
+              sx={[`/${page}` == path && { backgroundColor: grey[200] }]}
+              key={page}
+              component={Link}
+              href={`/${page}`}
+            >
               <Typography sx={{ textAlign: "center" }}>{page}</Typography>
             </MenuItem>
           ))}

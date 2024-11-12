@@ -22,9 +22,14 @@ const SigninAction = async (_prevSate: any, formData: FormData) => {
   }
   try {
     await signIn("credentials", { ...validatedData.data, redirect: false });
-  } catch {
-    const formErrors = { formErrors: "Email and password not match" };
-    return { error: { formErrors }, data: rawData };
+  } catch (e) {
+    if (e?.type == "CredentialsSignin") {
+      const formErrors = { formErrors: "Email and password not match" };
+      return { error: { formErrors }, data: rawData };
+    } else {
+      console.log(e);
+      throw new Error("Something went wrong");
+    }
   }
   redirect("/tasks");
 };
@@ -56,12 +61,6 @@ const SignupAction = async (_prevSate: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData);
   const validated = signupSchema.safeParse(rawData);
   if (validated.error) {
-    console.log({
-      error: {
-        fieldErrors: validated.error.flatten().fieldErrors,
-        formErrors: validated.error.flatten().formErrors,
-      },
-    });
     return {
       error: {
         fieldErrors: validated.error.flatten().fieldErrors,

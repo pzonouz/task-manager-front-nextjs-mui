@@ -10,8 +10,8 @@ const ModalWithState = ({
   children,
 }: {
   state: boolean;
-  setState: any;
-  children: any;
+  setState: Function;
+  children: React.ReactNode;
 }) => {
   const handleClose = () => {
     setState(false);
@@ -38,7 +38,7 @@ const ModalWithState = ({
         open={state}
         onClose={handleClose}
       >
-        {children}
+        {children as React.ReactElement}
       </Modal>
     </>
   );

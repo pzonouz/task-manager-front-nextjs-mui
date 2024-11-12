@@ -11,7 +11,7 @@ import { Comments } from "@/app/components/Comment/Comments";
 import { Category } from "@/app/types/Category.type";
 import { Prioirity } from "@/app/types/Priority.type";
 
-const page = async ({ params }: { params: any }) => {
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const parameters = await params;
   const session = await auth();
   const resTask = await fetch(

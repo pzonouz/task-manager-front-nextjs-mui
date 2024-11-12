@@ -3,7 +3,7 @@
 import { EditTask } from "@/app/components/Task/EditTask";
 import { auth } from "@/auth";
 
-const page = async ({ params }: { params: any }) => {
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
   const parameters = await params;
 
@@ -13,7 +13,7 @@ const page = async ({ params }: { params: any }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${session.access}`,
+        Authorization: `Bearer ${session?.access}`,
       },
     },
   );
